@@ -1,0 +1,54 @@
+syntax = "proto2";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "GrpcGreeterClient";
+
+package elfak;
+
+service Elfak {
+    rpc DodajKorisnika (Korisnik) returns (Poruka);
+    rpc ObrisiKorisnika (Indeks) returns (Poruka);
+    rpc IzmeniKorisnika (Korisnik) returns (Poruka);
+    rpc VratiKorisnika (Indeks) returns (Korisnik);
+    rpc VratiKorisnike (IndeksOdDo) returns (stream Korisnik);
+    rpc ObrisiKorisnike (IndeksOdDo) returns (stream Poruka);
+}
+
+message Korisnik {
+    required int32 brojIndeksa=1;
+    required string ime =2;
+    required string prezime = 3;
+    optional Adresa adresa=4;
+    repeated BrojTelefona telefoni=5; 
+}
+message Adresa {
+    required string ulica=1;
+    required int32 broj=2;
+    required string grad=3;
+}
+
+enum TipTelefona{
+    MOBILNI =0;
+    FIKSNI =1;
+    POSLOVNI=2;
+}
+
+message BrojTelefona{
+    required string broj = 1;
+    optional TipTelefona tip = 2;
+}
+message Poruka {
+    required string Text=1;
+}
+message Indeks {
+    required int32 indeks=1;
+}
+message IzmenaKorisnika {
+    required string ime =2;
+    required string prezime = 3;
+    optional Adresa adresa=4;
+    repeated BrojTelefona telefoni=5;
+}
+message IndeksOdDo {
+    required int32 odBrojaIndeksa = 1;
+    required int32 doBrojaIndeksa = 2;
+}
